@@ -204,7 +204,7 @@ def QA_fetch_get_index_list(package):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_future_list(package,):
+def QA_fetch_get_future_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_future_list()
@@ -212,7 +212,7 @@ def QA_fetch_get_future_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_option_list(package,):
+def QA_fetch_get_option_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_option_list()
@@ -220,7 +220,7 @@ def QA_fetch_get_option_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_globalfuture_list(package,):
+def QA_fetch_get_globalfuture_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_globalfuture_list()
@@ -228,7 +228,7 @@ def QA_fetch_get_globalfuture_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_hkstock_list(package,):
+def QA_fetch_get_hkstock_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_hkstock_list()
@@ -236,7 +236,7 @@ def QA_fetch_get_hkstock_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_hkfund_list(package,):
+def QA_fetch_get_hkfund_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_hkfund_list()
@@ -244,7 +244,7 @@ def QA_fetch_get_hkfund_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_hkindex_list(package,):
+def QA_fetch_get_hkindex_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_hkindex_list()
@@ -252,7 +252,7 @@ def QA_fetch_get_hkindex_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_usstock_list(package,):
+def QA_fetch_get_usstock_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_usstock_list()
@@ -260,7 +260,7 @@ def QA_fetch_get_usstock_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_macroindex_list(package,):
+def QA_fetch_get_macroindex_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_macroindex_list()
@@ -268,7 +268,7 @@ def QA_fetch_get_macroindex_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_globalindex_list(package,):
+def QA_fetch_get_globalindex_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_globalindex_list()
@@ -276,7 +276,7 @@ def QA_fetch_get_globalindex_list(package,):
         return 'Unsupport packages'
 
 
-def QA_fetch_get_exchangerate_list(package,):
+def QA_fetch_get_exchangerate_list(package):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.QA_fetch_get_exchangerate_list()

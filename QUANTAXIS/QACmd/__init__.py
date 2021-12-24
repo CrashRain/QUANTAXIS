@@ -311,17 +311,20 @@ class CLI(cmd.Cmd):
             命令格式：save etf_day    : 保存ETF日线数据 \n\
             命令格式：save single_etf_day    : 保存单个ETF日线数据 \n\
             命令格式：save etf_min    : 保存ET分钟数据 \n\
+            ------------------------------------------------------------ \n\
             命令格式：save stock_list : 保存股票列表 \n\
             命令格式：save stock_block: 保存板块 \n\
             命令格式：save stock_info : 保存tushare数据接口获取的股票列表 \n\
             命令格式：save financialfiles : 保存高级财务数据(自1996年开始) \n\
             命令格式：save option_contract_list 保存上市的期权合约信息（不包括已经过期摘牌的合约数据）\n\
+            ------------------------------------------------------------ \n\
             # 命令格式：save 50etf_option_day : 保存上海证券交易所50ETF期权日线数据（不包括已经过期摘牌的数据） \n\
             # 命令格式：save 50etf_option_min : 保存上海证券交易所50ETF期权分钟线数据（不包括已经过期摘牌的数据） \n\
             # 命令格式：save 300etf_option_day : 保存上海证券交易所300ETF期权日线数据（不包括已经过期摘牌的数据） \n\
             # 命令格式：save 300etf_option_min : 保存上海证券交易所300ETF期权分钟线数据（不包括已经过期摘牌的数据） \n\
             # 命令格式：save option_commodity_day : 保存商品期权日线数据（不包括已经过期摘牌的数据） \n\
             # 命令格式：save option_commodity_min : 保存商品期权分钟线数据（不包括已经过期摘牌的数据） \n\
+            ------------------------------------------------------------ \n\
             命令格式：save option_day_all : 保存上海证券交易所所有期权日线数据（不包括已经过期摘牌的数据） \n\
             命令格式：save option_min_all : 保存上海证券交易所所有期权分钟数据（不包括已经过期摘牌的数据） \n\
             命令格式：save index_list : 保存指数列表 \n\
@@ -332,6 +335,7 @@ class CLI(cmd.Cmd):
             命令格式：save bond_min  : 保存债券分钟线数据 \n\
             命令格式：save single_bond_min  : 保存单个债券分钟线数据 \n\
             命令格式：save bond_list : 保存债券列表 \n\
+            ------------------------------------------------------------ \n\
             命令格式：save bitmex : 保存bitmex交易所日线\现货交易对小时线数据 \n\
             命令格式：save binance : 保存币安交易所数据 \n\
             命令格式：save binance all : 一次性保存币安交易所日/小时/30/15/5/1分钟线数据（耗时很长） \n\
@@ -346,8 +350,17 @@ class CLI(cmd.Cmd):
             命令格式：save okex : 保存OKEx交易所数据 \n\
             命令格式：save okex all : 一次性保存OKEx交易所日/小时/30/15/5/1分钟线数据（耗时很长） \n\
             命令格式：save okex 86400/3600/1800/900/300/60 : 单独保存OKEx交易所日/小时/30/15/5/1分钟数据 \n\
-            ----------------------------------------------------------\n\
-            if you just want to save daily data just\n\
+            ------------------------------------------------------------ \n\
+            命令格式：save hk_day : 保存香港股票日线数据 \n\
+            命令格式：save hk_min : 保存香港股票分钟数据 \n\
+            命令格式：save hk_index_day : 保存香港指数日线数据 \n\
+            命令格式：save hk_index_min : 保存香港指数分钟数据 \n\
+            命令格式：save hk_fund_day : 保存香港基金日线数据 \n\
+            命令格式：save hk_fund_min : 保存香港基金分钟数据 \n\
+            命令格式：save us_day : 保存美国股票日线数据 \n\
+            命令格式：save us_min : 保存美国股票分钟数据 \n\
+            ------------------------------------------------------------ \n\
+            if you just want to save daily data just \n\
                 save all+ save stock_block+save stock_info, it about 1G data \n\
             if you want to save save the fully data including min level \n\
                 save x + save stock_info \n \n\
@@ -657,6 +670,19 @@ class CLI(cmd.Cmd):
                 QA_SU_save_single_bond_day(arg[1], "tdx")
             elif len(arg) == 2 and arg[0] == "single_bond_min":
                 QA_SU_save_single_bond_min(arg[1], "tdx")
+            elif len(arg) == 1 and arg[0].startswith("hk_"):
+                if arg[0] == "hk_day":
+                    print("❌港股日线数据暂未实现")
+                elif arg[0] == "hk_min":
+                    print("❌港股分钟数据暂未实现")
+                elif arg[0] == "hk_index_day":
+                    print("❌港股指数日线数据暂未实现")
+                elif arg[0] == "hk_index_min":
+                    print("❌港股指数分钟数据暂未实现")
+                elif arg[0] == "hk_fund_day":
+                    print("❌港股基金日线数据暂未实现")
+                elif arg[0] == "hk_fund_min":
+                    print("❌港股基金分钟数据暂未实现")
             else:
                 for i in arg:
                     if i == "insert_user":
