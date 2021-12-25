@@ -1621,7 +1621,7 @@ def QA_fetch_get_hkstock_list(ip=None, port=None):
     extension_market_list = QA_fetch_get_extensionmarket_list(
     ) if extension_market_list is None else extension_market_list
 
-    return extension_market_list.query('market==31 or market==48')
+    return extension_market_list.query('market==31 or market==48 or market==71')
 
 
 def QA_fetch_get_hkindex_list(ip=None, port=None):

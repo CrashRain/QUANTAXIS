@@ -494,7 +494,7 @@ class CLI(cmd.Cmd):
                 QA_SU_save_stock_list("tdx")
                 QA_SU_save_index_list("tdx")
                 QA_SU_save_stock_block("tdx")
-                QA_SU_save_future_list("tdx")
+                # QA_SU_save_future_list("tdx")
                 # QA_SU_save_stock_info('tdx')
             elif len(arg) == 1 and arg[0] == "ts_all":
                 if (
