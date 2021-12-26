@@ -6,7 +6,7 @@ use std::io::{BufRead, BufReader, Error, Write};
 
 use actix::Actor;
 use actix_rt;
-use actix_rt::{ArbiterHandle, Arbiter};
+use actix_rt::{Arbiter, ArbiterHandle};
 use chrono::{Date, Local};
 use chrono_tz::{Tz, UTC};
 use serde_json::Value;
@@ -35,7 +35,7 @@ async fn main() {
 
     let codelist = ["600010.XSHG", "300002.XSHE"];
     let hisdata = c
-        .exectue(Vec::from(codelist), "2021-07-11", "2021-12-22", "day")
+        .get_stock(Vec::from(codelist), "2021-07-11", "2021-12-22", "day")
         .await
         .unwrap();
     //println!("{:#?}",hisdata.to_kline());
