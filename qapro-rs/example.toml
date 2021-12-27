@@ -51,3 +51,9 @@ addr ="127.0.0.1:5000"
 log_level="info"
 key="000000000"
 qifi_gap=3
+
+[DataPath]
+# cache目录必须带/  或者\
+# /media/data/cache/ linux&mac
+#
+cache = "/media/data/cache/"
