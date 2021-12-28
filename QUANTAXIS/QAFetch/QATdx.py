@@ -1367,6 +1367,11 @@ def QA_fetch_get_tdx_industry() -> pd.DataFrame:
         incon = folder + '/incon.dat' # tdx industry file
         hy = folder + '/tdxhy.cfg' # tdx stock file
 
+        if os.path.exists(incon):
+            pass
+        else:
+            shutil.copy('/tmp/incon.dat', incon)
+
         # tdx industry file
         with open(incon, encoding='GB18030', mode='r') as f:
             incon = f.readlines()
