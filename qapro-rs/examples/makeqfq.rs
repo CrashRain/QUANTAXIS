@@ -4,15 +4,11 @@ use qapro_rs::qaconnector::clickhouse::ckclient;
 use qapro_rs::qaconnector::clickhouse::ckclient::DataConnector;
 use qapro_rs::qadatastruct::stockday::QADataStruct_StockDay;
 use qapro_rs::qaenv::localenv::CONFIG;
-use qapro_rs::qalog::log4::init_log4;
-use qapro_rs::qaprotocol::mifi::qafastkline::QAKlineBase;
 
 use polars::frame::DataFrame;
 use polars::prelude::{col, ChunkCompare, IntoLazy, JoinType, RollingOptions};
 use polars::series::ops::NullBehavior;
 use qapro_rs::qadatastruct::stockadj::QADataStruct_StockAdj;
-use rayon::join;
-use std::fmt::format;
 
 extern crate stopwatch;
 
@@ -62,12 +58,19 @@ async fn main() {
             col("high") * col("adj"),
             col("low") * col("adj"),
             col("close") * col("adj"),
+            col("limit_up") * col("adj"),
+            col("limit_down") * col("adj"),
         ])
+        .drop_duplicates(
+            false,
+            Some(vec!["date".to_string(), "order_book_id".to_string()]),
+        )
         .collect()
         .unwrap();
     println!("run qfq calc {:#?}", sw.elapsed());
     println!("qfq data {:#?}", qfq);
 
-    let mut  qfqstruct = QADataStruct_StockDay{data:qfq};
-    qfqstruct.save_selfdefined_cache(format!("{}stockdayqfq.parquet",CONFIG.DataPath.cache).as_str());
+    let mut qfqstruct = QADataStruct_StockDay { data: qfq };
+    qfqstruct
+        .save_selfdefined_cache(format!("{}stockdayqfq.parquet", CONFIG.DataPath.cache).as_str());
 }

@@ -1,29 +1,21 @@
 use chrono::prelude::*;
 use chrono_tz::Tz;
-use std::convert::TryInto;
+
 use std::io;
 use std::io::Error;
-use std::sync::atomic::AtomicBool;
-use std::sync::{Arc, Mutex};
 
 use async_trait::async_trait;
 use chrono;
-use clickhouse_rs::{Block, Pool};
-use serde::Deserialize;
-use serde_json::Value;
+use clickhouse_rs::Pool;
 
-use self::chrono::Utc;
 use crate::qadatastruct::factorstruct::QADataStruct_Factor;
-use crate::qadatastruct::stockday::QADataStruct_StockDay;
 use crate::qadatastruct::stockadj::QADataStruct_StockAdj;
+use crate::qadatastruct::stockday::QADataStruct_StockDay;
 
-use crate::qaenv::localenv::CONFIG;
-use crate::qaprotocol::mifi::market::{StockDay, StockMin};
-use crate::qaprotocol::mifi::qafastkline::{QAColumnBar, QAKlineBase};
-use actix::fut::ok;
-use clickhouse_rs::types::Column;
-use std::ops::Deref;
 use crate::qadatastruct::stocklist::QADataStruct_StockList;
+use crate::qaenv::localenv::CONFIG;
+
+use crate::qaprotocol::mifi::qafastkline::QAColumnBar;
 
 type ServerDate = chrono::Date<Tz>;
 type ServerDateTime = chrono::DateTime<Tz>;
@@ -69,12 +61,8 @@ impl QACKClient {
 
 #[async_trait]
 pub trait DataConnector {
-    async fn get_stocklist(
-        &self,
-    ) -> Result<Vec<String>, io::Error>;
-    async fn get_stocklist_adv(
-        &self,
-    ) -> Result<QADataStruct_StockList, io::Error>;
+    async fn get_stocklist(&self) -> Result<Vec<String>, io::Error>;
+    async fn get_stocklist_adv(&self) -> Result<QADataStruct_StockList, io::Error>;
     async fn get_stock(
         &self,
         codelist: Vec<&str>,
@@ -131,7 +119,6 @@ impl DataConnector for QACKClient {
         Ok(codev)
     }
 
-
     async fn get_stocklist_adv(&self) -> Result<QADataStruct_StockList, Error> {
         let mut cursor = self.pool.get_handle().await?;
         let sqlx = format!("SELECT * FROM quantaxis.stock_cn_codelist where status=='Active'");
@@ -145,34 +132,29 @@ impl DataConnector for QACKClient {
             .iter()
             .map(|x| String::from_utf8(x.to_vec()).unwrap())
             .collect();
-        let symbol: Vec<_> = result
-            .get_column("symbol")?
-            .iter::<&[u8]>()?
-            .collect();
+        let symbol: Vec<_> = result.get_column("symbol")?.iter::<&[u8]>()?.collect();
         let symbolvec: Vec<String> = symbol
             .iter()
             .map(|x| String::from_utf8(x.to_vec()).unwrap())
             .collect();
 
-        let listed_date: Vec<_> = result
-            .get_column("listed_date")?
-            .iter::<&[u8]>()?
-            .collect();
+        let listed_date: Vec<_> = result.get_column("listed_date")?.iter::<&[u8]>()?.collect();
         let listed_datevec: Vec<String> = listed_date
             .iter()
             .map(|x| String::from_utf8(x.to_vec()).unwrap())
             .collect();
 
-        let delist_date: Vec<_> = result
-            .get_column("delist_date")?
-            .iter::<&[u8]>()?
-            .collect();
+        let delist_date: Vec<_> = result.get_column("delist_date")?.iter::<&[u8]>()?.collect();
         let delist_datevec: Vec<String> = delist_date
             .iter()
             .map(|x| String::from_utf8(x.to_vec()).unwrap())
             .collect();
-        Ok(QADataStruct_StockList::new_from_vec(codev,listed_datevec,delist_datevec, symbolvec))
-
+        Ok(QADataStruct_StockList::new_from_vec(
+            codev,
+            listed_datevec,
+            delist_datevec,
+            symbolvec,
+        ))
     }
 
     async fn get_stock(
@@ -188,9 +170,9 @@ impl DataConnector for QACKClient {
         let sqlx = format!("SELECT * FROM quantaxis.stock_cn_{} where order_book_id in ['{}'] AND {} BETWEEN '{}' AND '{}' order by {}",freq, codevar,dt, start, end, dt);
 
         println!("{:#?}", sqlx);
-        let mut result = cursor.query(sqlx).fetch_all().await?;
+        let result = cursor.query(sqlx).fetch_all().await?;
 
-        let mut res: QAColumnBar;
+        let res: QAColumnBar;
         let openvec: Vec<_> = result.get_column("open")?.iter::<f32>()?.copied().collect();
         let highvec: Vec<_> = result.get_column("high")?.iter::<f32>()?.copied().collect();
         let lowvec: Vec<_> = result.get_column("low")?.iter::<f32>()?.copied().collect();
@@ -268,7 +250,7 @@ impl DataConnector for QACKClient {
         let sqlx = format!("SELECT * FROM quantaxis.stock_cn_{} where order_book_id in ['{}'] AND {} BETWEEN '{}' AND '{}' ",freq, codevar,dt, start, end);
 
         println!("{:#?}", sqlx);
-        let mut result = cursor.query(sqlx).fetch_all().await?;
+        let result = cursor.query(sqlx).fetch_all().await?;
 
         let openvec: Vec<_> = result.get_column("open")?.iter::<f32>()?.copied().collect();
         let highvec: Vec<_> = result.get_column("high")?.iter::<f32>()?.copied().collect();
@@ -385,14 +367,9 @@ impl DataConnector for QACKClient {
             .iter()
             .map(|x| String::from_utf8(x.to_vec()).unwrap())
             .collect();
-        let adj: Vec<_> = result
-            .get_column("adj")?
-            .iter::<f32>()?
-            .copied()
-            .collect();
+        let adj: Vec<_> = result.get_column("adj")?.iter::<f32>()?.copied().collect();
         let res = QADataStruct_StockAdj::new_from_vec(ttimevec, codev, adj);
         Ok(res)
-
     }
 
     async fn get_factor(
