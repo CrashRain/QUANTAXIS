@@ -1369,7 +1369,7 @@ def QA_fetch_get_tdx_industry() -> pd.DataFrame:
 
         if os.path.exists(incon):
             pass
-        else:
+        elif os.path.exists('/tmp/incon.dat'):
             shutil.copy('/tmp/incon.dat', incon)
 
         # tdx industry file
