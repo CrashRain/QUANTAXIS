@@ -10,7 +10,7 @@ import pymongo
 import QUANTAXIS as QA
 from qaenv import mongo_ip
 
-#mongo_ip = '192.168.2.117'
+#mongo_ip = '127.0.0.1'
 
 
 def mergex(dict1, dict2):
