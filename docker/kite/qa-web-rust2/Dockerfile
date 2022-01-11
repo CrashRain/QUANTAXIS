@@ -59,7 +59,7 @@ ENV GO111MODULE=on
 COPY ./config  /root/.cargo/
 COPY ./update_future.py  /root/QUANTAXIS/config/
 RUN set -eux; \
-    wget https://mirrors.ustc.edu.cn/golang/go1.15.6.linux-amd64.tar.gz;  \ 
+    wget https://mirrors.ustc.edu.cn/golang/go1.15.6.linux-amd64.tar.gz;  \
     apt update --fix-missing; \
     apt install -y build-essential libzmq3-dev pkg-config cmake;\
     apt-get install -y cron --allow-unauthenticated;\
@@ -72,7 +72,7 @@ RUN set -eux; \
     tar xvf go1.15.6.linux-amd64.tar.gz ;\
     chown -R root:root ./go ;\
     mv go /usr/lib/go-1.15;\
-    go env -w GOPROXY=https://goproxy.cn;\    
+    go env -w GOPROXY=https://goproxy.cn;\
     go get -u github.com/gopherdata/gophernotes;\
     cp /root/go/bin/gophernotes /usr/local/bin/ ;\
     mkdir -p /root/.local/share/jupyter/kernels/gophernotes ;\

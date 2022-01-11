@@ -284,6 +284,7 @@ class CLI(cmd.Cmd):
             "Usage: \n\
             命令格式：save all  : save stock_day/xdxr/ index_day/ stock_list/index_list \n\
             命令格式：save X|x  : save stock_day/xdxr/min index_day/min etf_day/min stock_list/index_list/block \n\
+            命令格式：save update: save stock_day index_day etf_day stock_list/index_list \n\
             命令格式：save day  : save stock_day/xdxr index_day etf_day stock_list/index_list \n\
             命令格式：save min  : save stock_min/xdxr index_min etf_min stock_list/index_list \n\
             命令格式: save future: save future_day/min/list \n\
@@ -496,6 +497,31 @@ class CLI(cmd.Cmd):
                 QA_SU_save_stock_block("tdx")
                 # QA_SU_save_future_list("tdx")
                 # QA_SU_save_stock_info('tdx')
+
+            elif len(arg) == 1 and arg[0] == "update":
+                if (
+                    QA_Setting()
+                    .client.quantaxis.user_list.find({"username": "admin"})
+                    .count()
+                    == 0
+                ):
+                    QA_Setting().client.quantaxis.user_list.insert(
+                        {"username": "admin", "password": "admin"}
+                    )
+                QA_SU_save_stock_day("tdx")
+                # QA_SU_save_stock_xdxr("tdx")
+                # QA_SU_save_stock_min('tdx')
+                QA_SU_save_index_day("tdx")
+                # QA_SU_save_index_min('tdx')
+                QA_SU_save_etf_list("tdx")
+                QA_SU_save_etf_day("tdx")
+                # QA_SU_save_etf_min('tdx')
+                QA_SU_save_index_list("tdx")
+                QA_SU_save_stock_list("tdx")
+                # QA_SU_save_stock_block("tdx")
+                # QA_SU_save_stock_divyield_day()
+                # QA_SU_save_report_calendar_day()
+
             elif len(arg) == 1 and arg[0] == "ts_all":
                 if (
                     QA_Setting()

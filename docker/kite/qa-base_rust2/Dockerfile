@@ -9,7 +9,7 @@ COPY kitesetup.exp /root/kitesetup.exp
 RUN apt install gnupg2  -y 
 
 RUN wget -q  https://linux.kite.com/dls/linux/current -O /root/kite.sh \
-&& apt-get update -y && apt-get install -y expect \
+&& apt-get --allow-releaseinfo-change update -y && apt-get install -y expect \
 && chmod +x /root/kitesetup.exp && chmod +x /root/kite.sh \
 && /root/kitesetup.exp 
 
